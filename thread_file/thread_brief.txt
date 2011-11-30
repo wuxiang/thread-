@@ -1,0 +1,32 @@
+ 1, mutex type
+	simple mutex:
+		boost::mutex
+		response lock type : define in boost::mutex	
+							boost::mutex::scope_lock;
+							boost::mutex::scope_try_lock;
+		
+	recursive mutex: can be lock many times ,but it also should be unlocked the same times
+		boost::recursive_mutex
+	shared mutex:(read_write lock)
+		boost::shared_mutex : it will use more system source than boost::mutex
+			{
+				lock type:
+					boost::lock_shared
+					boost::try_lock_shared
+
+					boost::unlock_shared
+			}
+		boost::shared_mutex do not has inner lock, so wo should use lock directly, like that:
+			read lock: boost::shared_lock<boost::shared_mutex> lk(argu)
+			write lock: boost::unique_lock<boost::shared_mutex> lk(argu)
+
+2, condtion type
+		boost::condition_variable_any
+		boost::condition_variable
+
+		and has another condition, but it not used in sequence
+		boost::condition
+
+3,future: get the value if thread has return value
+	packaged_task
+	unique_future

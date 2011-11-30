@@ -1,0 +1,72 @@
+1, int*
+    (1) tinyint
+    (2) smallint
+    (3) mediaint
+    (4) int
+    (5) bigint
+
+
+
+
+
+2,float(x)* x describe the preci of the data
+3,double(x)*
+
+4,Real
+5,declmal
+6,numeric(M,D)
+note: declmal and numeric are regarded as the same type in mysql
+M is the total size of numeric and declmal, D is the size of type after '.'
+
+7,date*
+8,time*
+9,year
+
+10,char
+11,varchar
+
+12,blob
+13,text
+note:text the same as varchar binary when describe a 
+
+14,enum
+15,set
+
+ 为你的mysql选择合适的类型：
+	1，在相关的列上使用索引是改进select操作性能的最好方式
+	2，mysql的一些操作
+	  （1），函数
+	   (2), + - * /
+	   (3), 位运算
+	   (4), 逻辑运算
+	   (5), 比较运算
+		between..and..
+		in () not in ()
+		is null
+		is not null
+		COALESCE(list):回来list中第一个非NULL的单元。
+		INTERVAL(N,N1,N2,N3,...):如果N< N1，返回0，如果N< N2，返回1等等。所有的参数被当作整数。为了函数能正确地工作，
+					它要求N1<N2<N3< ...<Nn。这是因为使用二进制搜索(很快)。
+	3,字符串比较函数
+	   like ""
+		% 	匹配任何数目的字符，甚至零个字符
+		_ 	精确匹配一个字符
+	4,强制类型转换
+	    binary "":BINARY操作符强制跟随它后面的字符串为一个二进制字符串
+	5,控制流函数
+	    IFNULL(expr1,expr2),如果expr1不是NULL，IFNULL()返回expr1，否则它返回expr2。
+	    IFNULL()返回一个数字或字符串值，取决于它被使用的上下文环境
+		mysql> select IFNULL(1/0,'yes');
+        	    -> 'yes'
+	    F(expr1,expr2,expr3)如果expr1是TRUE(expr1<>0且expr1<>NULL)，那么IF()返回expr2，
+	    否则它返回expr3。IF()返回一个数字或字符串值，取决于它被使用的上下文。
+	    CASE value WHEN [compare-value] THEN result [WHEN [compare-value] THEN result ...] [ELSE result] END
+	    CASE WHEN [condition] THEN result [WHEN [condition] THEN result ...] [ELSE result] END
+		mysql> SELECT CASE 1 WHEN 1 THEN "one" WHEN 2 THEN "two" ELSE "more" END;
+       		    -> "one"
+		mysql> SELECT CASE WHEN 1>0 THEN "true" ELSE "false" END;
+                    -> "true"
+		mysql> SELECT CASE BINARY "B" when "a" then 1 when "b" then 2 END;
+                    -> NULL
+
+
