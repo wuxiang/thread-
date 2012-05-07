@@ -67,8 +67,6 @@ struct netdb
     static inline int
     getnameinfo(sockaddr* sa, std::string& hostname, std::string& servname)
     {
-        assert(sa->sa_family == AF_INET || sa->sa_family == AF_INET6);
-
         char hbuf[NI_MAXHOST] = { 0 };
         char sbuf[NI_MAXSERV] = { 0 };
 
@@ -178,9 +176,15 @@ stdx_getifaddr_v4()
 {
     std::vector<std::string> hosts;
     bool result = stdx_getifaddrs_v4(hosts);
-    assert(result && !hosts.empty());
-    return hosts.front();
-//  return "127.0.0.1";
+    if(result && !hosts.empty())
+    {        
+        return hosts.front();
+    }
+    else
+    {
+        return std::string();
+    }    
+    //  return "127.0.0.1";
 }
 
 

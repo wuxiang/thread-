@@ -519,8 +519,8 @@ struct json_tokener_srec
 {
     enum json_tokener_state state;
     enum json_tokener_state saved_state;
-    struct json_node *obj;
-    struct json_node *current;
+    class json_node *obj;
+    class json_node *current;
     std::string obj_field_name;
 
     json_tokener_srec() : state(json_tokener_state_eatws),
@@ -542,7 +542,7 @@ struct json_tokener
 {
     int m_depth;
     bool m_double;
-    ptrdiff_t m_err;
+    std::ptrdiff_t m_err;
     std::string::size_type st_pos;
     int char_offset;
     unsigned int ucs_char;
@@ -610,15 +610,15 @@ struct json_tokener
         return c;
     }
 
-    inline struct json_node*
+    inline class json_node*
     json_tokener_parse_ex(const std::string& strtok, int len);
 };
 
-inline struct json_node*
+inline class json_node*
 json_tokener::json_tokener_parse_ex(const std::string& strtok, int len)
 {
     struct json_tokener *tok = this;
-    struct json_node *obj = NULL; // object in up layer
+    class json_node *obj = NULL; // object in up layer
     char c = '\1';
 
     tok->char_offset = 0;
@@ -1149,9 +1149,9 @@ out:
 inline json_node* json_tokener_parse(const std::string& strtok)
 {
     json_tokener tok;
-    struct json_node* obj = tok.json_tokener_parse_ex(strtok, -1);
+    class json_node* obj = tok.json_tokener_parse_ex(strtok, -1);
     if (tok.m_err != json_tokener_success)
-        obj = (struct json_node*)error_ptr(-tok.m_err);
+        obj = (class json_node*)error_ptr(-tok.m_err);
     return obj;
 }
 

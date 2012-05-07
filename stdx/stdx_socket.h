@@ -15,7 +15,6 @@
 #include <ifaddrs.h>
 
 // C 89 header files
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
@@ -69,7 +68,6 @@ public:
 
     ssize_t readn(void *vptr, size_t n) const
     {
-        assert(is_valid());
         char *ptr = static_cast<char*>(vptr);
         ssize_t nread;
         size_t nleft = n;
@@ -92,7 +90,6 @@ public:
 
     ssize_t writen(const void *vptr, size_t n) const
     {
-        assert(is_valid());
         const char* ptr = static_cast<const char *>(vptr);
         ssize_t nwritten;
         size_t nleft = n;
@@ -212,7 +209,6 @@ public:
         if (len == 0)
             return true;
 
-        assert(buf != NULL);
         if (buf == NULL)
             return false;
 
@@ -235,9 +231,6 @@ public:
 
     bool write_buffer(const auto_buffer& buf) const
     {
-        assert((buf.size() == 0 && buf.data() == NULL) ||
-               (buf.size() != 0 && buf.data() != NULL));
-
         return this->write_buffer(buf.data(), buf.size());
     }
 
@@ -258,8 +251,6 @@ public:
 
     bool getsockname(std::string& hostname, std::string& servname) const
     {
-        assert(is_valid());
-
         struct sockaddr_storage ss;
         socklen_t addrlen = sizeof(ss);
 
@@ -276,8 +267,6 @@ public:
 
     bool getpeername(std::string& hostname, std::string& servname) const
     {
-        assert(is_valid());
-
         struct sockaddr_storage ss;
         socklen_t addrlen = sizeof(ss);
 
@@ -295,8 +284,6 @@ public:
 private:
     bool getaddrport(sockaddr* sa, std::string& hostname, std::string& servname) const
     {
-        assert(sa->sa_family == AF_INET || sa->sa_family == AF_INET6);
-
         int ret = netdb::getnameinfo(sa, hostname, servname);
         return ret == 0;
     }
@@ -339,13 +326,11 @@ public:
 
 //  ssize_t sendto(void* buf, size_t nbytes) const
 //  {
-//      assert(m_fd >= 0);
 //      return ::sendto(m_fd, buf, nbytes, 0, (struct sockaddr *)&m_sockaddr, m_addrlen);
 //  }
 
 //  ssize_t recvfrom(void* buf, size_t nbytes, struct sockaddr* from, socklen_t* fromlen) const
 //  {
-//      assert(m_fd >= 0);
 //      return ::recvfrom(m_fd, buf, nbytes, 0, from, fromlen);
 //  }
 };
@@ -355,9 +340,6 @@ class tcp_connector
 public:
     int connect(const std::string& hostname, const std::string& servname) const
     {
-        assert(!hostname.empty());
-        assert(!servname.empty());
-
         struct addrinfo hints;
         memset(&hints, 0, sizeof(hints));
         hints.ai_family = AF_UNSPEC;
@@ -477,8 +459,6 @@ public:
 
     int listen(const std::string& hostname, const std::string& servname, socklen_t* addrlenp)
     {
-        assert(m_fd == -1);
-
         struct addrinfo hints;
         memset(&hints, 0, sizeof(hints));
         hints.ai_flags = AI_PASSIVE;
@@ -541,7 +521,6 @@ public:
 
     int accept(struct sockaddr* addr, socklen_t* addrlen) const
     {
-        assert(m_fd >= 0);
         return ::accept(m_fd, addr, addrlen);
     }
 };
@@ -561,10 +540,6 @@ public:
 
     int connect(const std::string& hostname, const std::string& servname)
     {
-        assert(m_fd == -1);
-        assert(!hostname.empty());
-        assert(!servname.empty());
-
         struct addrinfo hints;
         memset(&hints, 0, sizeof(hints));
         hints.ai_family = AF_INET;//AF_UNSPEC;
@@ -606,13 +581,11 @@ public:
 
     ssize_t sendto(void* buf, size_t nbytes) const
     {
-        assert(m_fd >= 0);
         return ::sendto(m_fd, buf, nbytes, 0, (struct sockaddr *)&m_sockaddr, m_addrlen);
     }
 
     ssize_t recvfrom(void* buf, size_t nbytes, struct sockaddr* from, socklen_t* fromlen) const
     {
-        assert(m_fd >= 0);
         return ::recvfrom(m_fd, buf, nbytes, 0, from, fromlen);
     }
 };
@@ -631,7 +604,6 @@ public:
 
     int listen(const std::string& hostname, const std::string& servname, socklen_t* addrlenp = NULL)
     {
-        assert(m_fd == -1);
 
         struct addrinfo hints;
         memset(&hints, 0, sizeof(hints));
@@ -727,7 +699,6 @@ public:
 
     int accept(struct sockaddr* addr, socklen_t* addrlen) const
     {
-        assert(m_fd >= 0);
         return ::accept(m_fd, addr, addrlen);
     }
 };

@@ -3,7 +3,6 @@
 
 
 // C 89 header files
-#include <assert.h>
 #include <stdlib.h>
 
 
@@ -107,21 +106,18 @@ public:
     element_type&
     operator*() const throw()
     {
-        assert(_M_ptr != 0);
         return *_M_ptr;
     }
 
     element_type*
     operator->() const throw()
     {
-        assert(_M_ptr != 0);
         return _M_ptr;
     }
 
 //  _Tp&
 //  operator[](size_t __i) const
 //  {
-//      assert(get() != 0);
 //      return get()[__i];
 //  }
 

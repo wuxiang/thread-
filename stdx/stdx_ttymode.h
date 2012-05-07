@@ -8,7 +8,6 @@
 #include <unistd.h>
 
 // C 89 header files
-#include <assert.h>
 #include <errno.h>
 
 // C++ 98 header files
@@ -25,7 +24,6 @@ public:
 public:
     ttymode(int fd) : m_fd(fd), m_state(RESET)
     {
-        assert(fd >= 0);
         if (tcgetattr(fd, &m_mode) < 0)
             throw std::runtime_error("ttymode ctor()");
     }

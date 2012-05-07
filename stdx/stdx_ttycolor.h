@@ -8,7 +8,6 @@
 #include <unistd.h>
 
 // C 89 header files
-#include <assert.h>
 #include <errno.h>
 
 // C++ 98 header files
@@ -37,39 +36,39 @@ enum _Ios_colorflags
     _S_lightwhite   = 0x0F,
 };
 
-static const std::string _Text_endcolor     = "\033[0m";
-static const std::string _Text_black        = "\033[22;30m";
-static const std::string _Text_red          = "\033[22;31m";
-static const std::string _Text_green        = "\033[22;32m";
-static const std::string _Text_brown        = "\033[22;33m";
-static const std::string _Text_blue         = "\033[22;34m";
-static const std::string _Text_magenta      = "\033[22;35m";
-static const std::string _Text_cyan         = "\033[22;36m";
-static const std::string _Text_gran         = "\033[22;37m";
-static const std::string _Text_dark         = "\033[01;30m";
-static const std::string _Text_lightred     = "\033[01;31m";
-static const std::string _Text_lightgreen   = "\033[01;32m";
-static const std::string _Text_yellow       = "\033[01;33m";
-static const std::string _Text_lightblue    = "\033[01;34m";
-static const std::string _Text_lightmagenta = "\033[01;35m";
-static const std::string _Text_lightcyan    = "\033[01;36m";
-static const std::string _Text_white        = "\033[01;37m";
-static const std::string _Back_black        = "\033[22;40m";
-static const std::string _Back_red          = "\033[22;41m";
-static const std::string _Back_green        = "\033[22;42m";
-static const std::string _Back_brown        = "\033[22;43m";
-static const std::string _Back_blue         = "\033[22;44m";
-static const std::string _Back_magenta      = "\033[22;45m";
-static const std::string _Back_cyan         = "\033[22;46m";
-static const std::string _Back_gran         = "\033[22;47m";
-static const std::string _Back_dark         = "\033[01;40m";
-static const std::string _Back_lightred     = "\033[01;41m";
-static const std::string _Back_lightgreen   = "\033[01;42m";
-static const std::string _Back_yellow       = "\033[01;43m";
-static const std::string _Back_lightblue    = "\033[01;44m";
-static const std::string _Back_lightmagenta = "\033[01;45m";
-static const std::string _Back_lightcyan    = "\033[01;46m";
-static const std::string _Back_white        = "\033[01;47m";
+const char* const _Text_endcolor     = "\033[0m";
+const char* const _Text_black        = "\033[22;30m";
+const char* const _Text_red          = "\033[22;31m";
+const char* const _Text_green        = "\033[22;32m";
+const char* const _Text_brown        = "\033[22;33m";
+const char* const _Text_blue         = "\033[22;34m";
+const char* const _Text_magenta      = "\033[22;35m";
+const char* const _Text_cyan         = "\033[22;36m";
+const char* const _Text_gran         = "\033[22;37m";
+const char* const _Text_dark         = "\033[01;30m";
+const char* const _Text_lightred     = "\033[01;31m";
+const char* const _Text_lightgreen   = "\033[01;32m";
+const char* const _Text_yellow       = "\033[01;33m";
+const char* const _Text_lightblue    = "\033[01;34m";
+const char* const _Text_lightmagenta = "\033[01;35m";
+const char* const _Text_lightcyan    = "\033[01;36m";
+const char* const _Text_white        = "\033[01;37m";
+const char* const _Back_black        = "\033[22;40m";
+const char* const _Back_red          = "\033[22;41m";
+const char* const _Back_green        = "\033[22;42m";
+const char* const _Back_brown        = "\033[22;43m";
+const char* const _Back_blue         = "\033[22;44m";
+const char* const _Back_magenta      = "\033[22;45m";
+const char* const _Back_cyan         = "\033[22;46m";
+const char* const _Back_gran         = "\033[22;47m";
+const char* const _Back_dark         = "\033[01;40m";
+const char* const _Back_lightred     = "\033[01;41m";
+const char* const _Back_lightgreen   = "\033[01;42m";
+const char* const _Back_yellow       = "\033[01;43m";
+const char* const _Back_lightblue    = "\033[01;44m";
+const char* const _Back_lightmagenta = "\033[01;45m";
+const char* const _Back_lightcyan    = "\033[01;46m";
+const char* const _Back_white        = "\033[01;47m";
 
 
 struct _Log_color { std::string m_color; };

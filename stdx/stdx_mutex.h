@@ -7,7 +7,6 @@
 #include <pthread.h>
 
 // C 89 header files
-#include <assert.h>
 #include <errno.h>
 #include <stdexcept>
 
@@ -57,8 +56,7 @@ public:
     }
     ~mutex()
     {
-        int ret = pthread_mutex_destroy(&m);
-        assert(ret == 0);
+        pthread_mutex_destroy(&m);
     }
     
     void lock()
@@ -74,7 +72,6 @@ public:
     bool try_lock()
     {
         int const res=pthread_mutex_trylock(&m);
-        assert(!res || res==EBUSY);
         return !res;
     }
 
@@ -102,26 +99,22 @@ public:
 
     ~condition_variable()
     {
-        int ret = pthread_cond_destroy(&m_cond);
-        assert (ret == 0);
+        pthread_cond_destroy(&m_cond);
     }
 
     void notify_one()
     {
-        int ret = pthread_cond_signal(&m_cond);
-        assert (ret == 0);
+        pthread_cond_signal(&m_cond);
     }
 
     void notify_all()
     {
-        int ret = pthread_cond_broadcast(&m_cond);
-        assert (ret == 0);
+        ret = pthread_cond_broadcast(&m_cond);
     }
 
     void wait(mutex& mtx)
     {
-        int ret = pthread_cond_wait(&m_cond, mtx.native_handle());
-        assert (ret == 0);
+        pthread_cond_wait(&m_cond, mtx.native_handle());
     }
 };
 

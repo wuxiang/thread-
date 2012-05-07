@@ -5,6 +5,8 @@
 // Posix header files
 
 // C 89 header files
+
+#include <stdio.h>
 #include <assert.h>
 #include <errno.h>
 #include <string.h>
@@ -21,16 +23,15 @@ namespace stdx {
 template <typename _Tp>
 inline _Tp
 from_string(const std::string& str) {
-    assert(!str.empty());
     _Tp x;
-    std::istringstream(str) >> x;
+    std::istringstream iss(str);
+    iss >> x;
     return x;
 }
 
 template <typename _Tp>
 inline _Tp&
 from_string(const std::string& str, _Tp& x) {
-    assert(!str.empty());
     std::istringstream iss(str);
     iss >> x;
     return x;
@@ -205,6 +206,34 @@ uint64_t hex_to_ulong(const char* str)
     return var;
 }
 
+
+inline 
+std::string to_hex_string(unsigned char *inputData, size_t size)  
+{  
+    char temp[4];  
+    std::string szHexOutput;  
+
+    for (size_t i = 0 ; i < size ; i++)  
+    {  
+        sprintf(temp, "%02X ", inputData[i]);  
+        szHexOutput += std::string(temp,3);  
+    }  
+    return szHexOutput;  
+}  
+
+inline 
+std::string to_hex_string(const std::string &inputStr)  
+{  
+    char temp[4];  
+    std::string szHexOutput;  
+
+    for (size_t i = 0 ; i < inputStr.length() ; i++)  
+    {  
+        sprintf(temp, "%02X ", (unsigned char)inputStr[i]);  
+        szHexOutput += std::string(temp,3);  
+    }  
+    return szHexOutput;  
+}
 
 /*
  * Copy src to string dst of size siz.  At most siz-1 characters

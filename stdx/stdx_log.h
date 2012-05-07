@@ -2,7 +2,6 @@
 #define __STDX_LOG_H
 
 // C 89 header files
-#include <assert.h>
 #include <errno.h>
 #include <strings.h>
 
@@ -15,29 +14,75 @@
 // Rain header files
 #include "stdx_ttycolor.h"
 
+#ifndef BRIDGE_ENTRY_SERVER
+    #include "nb_configuration.h"
+#else
+    #ifdef HOST_KEEPER_PROCESS
+        #include "hk_configuration.h"
+    #else
+        #include "be_configuration.h"
+    #endif
+#endif
+//static unsigned logInfoNum;
 
 namespace stdx {
 
 
-#define LOG_OUTPUT(osscolor, statement) \
+#ifndef BRIDGE_ENTRY_SERVER
+    #define LOG_OUTPUT(osscolor, statement, logType) \
     do                                  \
     {                                   \
-        std::ostringstream oss;         \
-        oss << osscolor;                \
-        oss << statement;               \
-        oss << stdx::endcolor;          \
-        oss << std::endl;               \
-        std::cerr << oss.str();         \
+        if(logType >= nb_configuration::instance().get_log_level()) \
+        {                                   \
+            std::ostringstream oss;         \
+            oss << osscolor;                \
+            oss << statement;               \
+            oss << stdx::endcolor;          \
+            oss << std::endl;               \
+            std::cerr << oss.str();         \
+        }                                   \
     } while (false)
 
-#define LOG_DEBUG(statement)    LOG_OUTPUT(stdx::endcolor, statement)
-#define LOG_INFO(statement)     LOG_OUTPUT(stdx::endcolor, statement)
-#define LOG_NOTICE(statement)   LOG_OUTPUT(stdx::yellow, statement)
-#define LOG_WARNING(statement)  LOG_OUTPUT(stdx::yellow, statement)
-#define LOG_ERROR(statement)    LOG_OUTPUT(stdx::red, statement)
-#define LOG_CRIT(statement)     LOG_OUTPUT(stdx::red, statement)
-#define LOG_ALERT(statement)    LOG_OUTPUT(stdx::red, statement)
-#define LOG_EMERG(statement)    LOG_OUTPUT(stdx::red, statement)
+#else
+    #ifdef HOST_KEEPER_PROCESS
+        #define LOG_OUTPUT(osscolor, statement, logType)    \
+        do                                                      \
+        {                                   \
+            if(logType >= hk_configuration::instance().get_log_level()) \
+            {                                                           \
+                std::ostringstream oss;                                 \
+                oss << osscolor;                                        \
+                oss << statement;                                       \
+                oss << stdx::endcolor;                                  \
+                oss << std::endl;                                       \
+                std::cerr << oss.str();                                 \
+            }                                                           \
+        } while (false)
+    #else
+        #define LOG_OUTPUT(osscolor, statement, logType)    \
+        do                                  \
+        {                                                           \
+            if(logType >= be_configuration::instance().get_log_level()) \
+            {                                                           \
+                std::ostringstream oss;                                 \
+                oss << osscolor;                                        \
+                oss << statement;                                       \
+                oss << stdx::endcolor;                                  \
+                oss << std::endl;                                       \
+                std::cerr << oss.str();                                 \
+            }                                                           \
+        } while (false)
+    #endif
+#endif
+
+#define LOG_DEBUG(statement)    LOG_OUTPUT(stdx::endcolor, statement, 1)
+#define LOG_INFO(statement)     LOG_OUTPUT(stdx::endcolor, statement, 2)
+#define LOG_NOTICE(statement)   LOG_OUTPUT(stdx::yellow, statement, 3)
+#define LOG_WARNING(statement)  LOG_OUTPUT(stdx::yellow, statement, 4)
+#define LOG_ERROR(statement)    LOG_OUTPUT(stdx::red, statement, 5)
+#define LOG_CRIT(statement)     LOG_OUTPUT(stdx::red, statement, 6)
+#define LOG_ALERT(statement)    LOG_OUTPUT(stdx::red, statement, 7)
+#define LOG_EMERG(statement)    LOG_OUTPUT(stdx::red, statement, 8)
 
 
 #define LOG_FORMAT(format, ...) \
